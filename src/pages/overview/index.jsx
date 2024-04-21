@@ -8,15 +8,29 @@ import moment from 'moment';
 import LineChart from './LineChart';
 import LineChartAlt from './LineChartAlt';
 
+import PopUp from '../../modals/popup';
+// import axiosInstance from '../../utils/axios-instance';
+import UpdateDiseaseModel from '../../modals/update-disease';
+
 export default function Overview() {
     const [user, setUser] = React.useState({});
     const [loading, setLoading] = React.useState(true);
+    const [openDiseaseModal, setOpenDiseaseModal] = React.useState(false);
 
     React.useEffect(() => {
         setLoading(true);
         verifyLogin();
         setUserSetting();
     }, []);
+
+    const onDiseaseUpdate = () => {
+        setOpenDiseaseModal(true);
+    };
+
+    const closeModal = () => {
+        setOpenDiseaseModal(false);
+    };
+
 
     const setUserSetting = () => {
         const logged_user = sessionStorage.getItem('logged-user');
@@ -89,12 +103,11 @@ export default function Overview() {
                                 <h2 className="text-2xl font-bold text-gray-600">Health Overview</h2>
                                 <p className="text-gray-500">As of {date}</p>
                             </div>
-                            <div className="right"><Link
-                                to="/overview"
-                                className="glow px-8 py-4 text-white rounded-full border-2 bg-[#7EA200] 
+                            <div className="right"><div onClick={onDiseaseUpdate}
+                                className="cursor-pointer glow px-8 py-4 text-white rounded-full border-2 bg-[#7EA200] 
                                 border-[#7EA200] text-lg hover:bg-white hover:text-[#7EA200] transition duration-300 ease-in-out">
                                 Update Disease
-                            </Link></div>
+                            </div></div>
                         </div>
 
                         <div className="disease-cards flex flex-wrap mt-6 mb-6 justify-evenly items-center">
@@ -118,15 +131,15 @@ export default function Overview() {
 
                             <div className="card-item card-shadow w-[30%] me-2 border border-[#E8E7E7] rounded-lg p-4">
                                 <div className="col mb-4 flex justify-between items-center pe-2">
-                                    <div className="icon bg-[#F8DEBD] rounded-lg px-3 py-2">
-                                        <i className="bx bx-brush text-xl font-bold text-[#E79B38]"></i>
+                                    <div className="icon bg-[#FBF0F3] rounded-lg px-3 py-2">
+                                        <i className="bx bxs-heart text-xl font-bold text-[#CA6B6E]"></i>
                                     </div>
                                     <div className="font-semibold">Blood Sugar</div>
                                 </div>
                                 <div className="measurement text-sm text-slate-600 mb-4">
                                     <span className='text-2xl pe-1 text-black'>80</span>mg / dL
                                 </div>
-                                <div className="bg-[#F8DEBD] py-2 px-3 rounded-xl text-xs inline-block font-semibold">Normal</div>
+                                <div className="bg-[#FBF0F3] py-2 px-3 rounded-xl text-xs inline-block font-semibold">Normal</div>
 
                                 <div className="chartContainer" style={chartStyle}>
                                     <LineChart />
@@ -135,15 +148,15 @@ export default function Overview() {
 
                             <div className="card-item card-shadow w-[30%] me-2 border border-[#E8E7E7] rounded-lg p-4">
                                 <div className="col mb-4 flex justify-between items-center pe-2">
-                                    <div className="icon bg-[#F8DEBD] rounded-lg px-3 py-2">
-                                        <i className="bx bx-brush text-xl font-bold text-[#E79B38]"></i>
+                                    <div className="icon bg-[#D0FBFF] rounded-lg px-3 py-2">
+                                        <i className="bx bxs-droplet text-xl font-bold text-[#478F96]"></i>
                                     </div>
                                     <div className="font-semibold">Blood Sugar</div>
                                 </div>
                                 <div className="measurement text-sm text-slate-600 mb-4">
                                     <span className='text-2xl pe-1 text-black'>80</span>mg / dL
                                 </div>
-                                <div className="bg-[#F8DEBD] py-2 px-3 rounded-xl text-xs inline-block font-semibold">Normal</div>
+                                <div className="bg-[#D0FBFF] py-2 px-3 rounded-xl text-xs inline-block font-semibold">Normal</div>
 
                                 <div className="chartContainer" style={chartStyle}>
                                     <LineChart />
@@ -228,6 +241,16 @@ export default function Overview() {
                     </div>
                 </div>
             </div>
+            <PopUp
+                size="lg"
+                title={'Update Disease Report'}
+                openModal={openDiseaseModal}
+                setOpenModal={setOpenDiseaseModal}>
+                <UpdateDiseaseModel
+                    onSuccess={closeModal}
+                    setOpenModal={setOpenDiseaseModal}
+                />
+            </PopUp>
         </div>
     );
 };

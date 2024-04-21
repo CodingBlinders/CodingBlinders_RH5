@@ -16,7 +16,7 @@ export default function Heatmap() {
 
     const fetchData = (search = '') => {
         axiosInstance
-            .get('/locations/search', { params: { search } })
+            .get('/heatmap/all', { params: { search } })
             .then((result) => {
                 if (result?.data?.data) setData(result?.data?.data);
             })
@@ -48,18 +48,18 @@ export default function Heatmap() {
                         <table className="w-full text-sm leading-5 text-center text-gray-600">
                             <thead className="bg-gray-100">
                                 <tr>
-                                    <th className="py-3 px-4 font-medium">Nutrient</th>
-                                    <th className="py-3 px-4 font-medium ">Amount per Serving (100g)</th>
+                                    <th className="py-3 px-4 font-medium">Disease</th>
+                                    <th className="py-3 px-4 font-medium ">No of Patients</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className="py-3 px-4 font-medium">Calories</td>
+                                    <td className="py-3 px-4 font-medium">Feaver</td>
                                     <td className="py-3 px-4">240</td>
                                 </tr>
                                 <tr className="bg-gray-50">
-                                    <td className="py-3 px-4 font-medium">Total Fat</td>
-                                    <td className="py-3 px-4">12g</td>
+                                    <td className="py-3 px-4 font-medium">Cold and Flu</td>
+                                    <td className="py-3 px-4">12</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -67,7 +67,7 @@ export default function Heatmap() {
 
                 </div>
                 <div className="right map flex-grow h-[80vh] me-8 overflow-hidden rounded-2xl">
-                    <MapComp />
+                    <MapComp data={data} />
                 </div>
 
             </div>

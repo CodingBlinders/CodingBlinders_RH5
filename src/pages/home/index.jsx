@@ -12,15 +12,14 @@ export default function Home() {
                 <div className="left w-1/2 flex justify-center items-center py-10">
                     <div className="hero-text w-1/2">
                         <div className="title font-extrabold pb-3 xl:text-6xl text-3xl text-blue-950 mb-4">
-                            We Are Ready to Problems <br />
+                            Empowering Health Solutions  <br />
                             <span className='clip-text'>
-                                Help Your Health
+                                for You
                             </span>
                         </div>
-                        <p className='font-thing text-lg text-gray-600 opacity-60'>In times like today, your health is very important,
-                            especially since the number of COVID-19 cases is
-                            increasing day by day, so we are ready to help you
-                            with your health consultation</p>
+                        <p className='font-thing text-lg text-gray-600 opacity-60'>
+                            In today's challenging times, prioritizing your health is paramount, given the escalating number of COVID-19 cases. We stand ready to assist you with personalized health consultations powered by the latest Artificial Intelligence and Machine Learning technologies.
+                        </p>
                         <div className="my-12">
                             <Link
                                 to="/overview"

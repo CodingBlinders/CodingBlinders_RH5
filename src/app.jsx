@@ -9,6 +9,7 @@ import Home from './pages/home';
 import Overview from './pages/overview';
 import Heatmap from './pages/heatmap';
 import NotFound from './pages/not-found'
+import ChatPage from './pages/chat'
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/overview" element={<Overview />} />
                     <Route path="/heatmap" element={<Heatmap />} />
+                    <Route path="/chat" element={<ChatPage />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>

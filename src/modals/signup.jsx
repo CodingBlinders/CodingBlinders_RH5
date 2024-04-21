@@ -1,5 +1,6 @@
 import { Modal, Button } from 'flowbite-react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import axiosInstance from '../utils/axios-instance';
 import { NotificationManager } from 'react-notifications';
 import { formToJSON } from 'axios';
@@ -78,6 +79,18 @@ export default function SignUpModal({ onSuccess, onSignIn }) {
                         type="password"
                         label="Confirm Password"
                     />
+                </div>
+                {/* agree to terms and conditions checkbox */}
+                <div className="w-full max-w-sm">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" required />
+                        <span className="text-gray-500 dark:text-gray-300">
+                            I agree to the{' '}
+                            <Link to="./TAC" className="text-blue-700 hover:underline dark:text-blue-500">
+                                Terms and Conditions
+                            </Link>
+                        </span>
+                    </label>
                 </div>
 
                 <div className="text-sm w-full text-left font-medium text-gray-500 dark:text-gray-300">

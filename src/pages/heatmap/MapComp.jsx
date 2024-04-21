@@ -1,12 +1,8 @@
-// require('dotenv').config();
-
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     GoogleMap, useLoadScript, Marker, HeatmapLayer
 } from '@react-google-maps/api';
-
-// const dotenv = require('../../.env');
+// import heatDataPoints from './heatmap.json';
 
 const libraries = ['places', 'visualization'];
 const mapContainerStyle = {
@@ -15,41 +11,105 @@ const mapContainerStyle = {
 };
 
 const center = {
-    lat: 37.782,
-    lng: -122.447,
+    lat: 6.9271,
+    lng: 79.8612,
 };
 
-export default function MapComp() {
+{/* <MapComp data={data} /> */}
+
+export default function Heatmap( { data }) {
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_API_URI,
         libraries,
     });
+    const [heatmapData, setHeatmapData] = useState([]);
+    const [currentWeek, setCurrentWeek] = useState(new Date());
 
-    if (loadError) {
+    let heatDataPoints = data;
+
+    // [
+    //     {
+    //         "_id": "6624a53c350b80344026c3ce",
+    //         "disease": "fever",
+    //         "latitude": "7.2184279",
+    //         "longitude": "81.8541161",
+    //         "city": "Akkaraipattu",
+    //         "createdAt": "2024-04-21T05:33:48.715Z",
+    //         "updatedAt": "2024-04-21T05:33:48.715Z",
+    //         "__v": 0
+    //     },
+    //     {
+    //         "_id": "6624a54e66e9ff47e710d88e",
+    //         "disease": "fever",
+    //         "latitude": "7.2184279",
+    //         "longitude": "81.8541161",
+    //         "city": "Akkaraipattu",
+    //         "createdAt": "2024-04-21T05:34:06.814Z",
+    //         "updatedAt": "2024-04-21T05:34:06.814Z",
+    //         "__v": 0
+    //     },
+    //     {
+    //         "_id": "6624a56066e9ff47e710d891",
+    //         "disease": "fever",
+    //         "latitude": "7.2184279",
+    //         "longitude": "81.8541161",
+    //         "city": "Akkaraipattu",
+    //         "createdAt": "2024-04-21T05:34:24.569Z",
+    //         "updatedAt": "2024-04-21T05:34:24.569Z",
+    //         "__v": 0
+    //     },
+    //     {
+    //         "_id": "6624a5a466e9ff47e710d894",
+    //         "disease": "fever",
+    //         "latitude": "7.2184279",
+    //         "longitude": "81.8541161",
+    //         "city": "Akkaraipattu",
+    //         "createdAt": "2024-04-21T05:35:32.540Z",
+    //         "updatedAt": "2024-04-21T05:35:32.540Z",
+    //         "__v": 0
+    //     },
+    //     {
+    //         "_id": "6624a5aa66e9ff47e710d899",
+    //         "disease": "fever",
+    //         "latitude": "7.2184279",
+    //         "longitude": "81.8541161",
+    //         "city": "Akkaraipattu",
+    //         "createdAt": "2024-04-21T05:35:38.835Z",
+    //         "updatedAt": "2024-04-21T05:35:38.835Z",
+    //         "__v": 0
+    //     }
+    // ]
+
+    // console.log(heatDataPoints);
+    // return
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            // Update current week and filter data accordingly
+            setCurrentWeek((prevWeek) => {
+                const nextWeek = new Date(prevWeek);
+                nextWeek.setDate(nextWeek.getDate() - 1);
+
+                const filteredData = heatDataPoints.filter((point) => new Date(point.createdAt) > nextWeek);
+
+                const newData = filteredData.map((point) => new window.google.maps.LatLng(point.latitude, point.longitude));
+                setHeatmapData(newData);
+
+                return nextWeek;
+            });
+
+            if (currentWeek < new Date('2024-04-21')) {
+                clearInterval(timer);
+            }
+        }, 100);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    if (loadError)
         return <div>Error loading maps</div>;
-    }
-
-    if (!isLoaded) {
+    if (!isLoaded)
         return <div>Loading maps</div>;
-    }
-
-    const heatmapData = [
-        new window.google.maps.LatLng(37.782, -122.447),
-        new window.google.maps.LatLng(37.782, -122.445),
-        new window.google.maps.LatLng(37.782, -122.443),
-        new window.google.maps.LatLng(37.782, -122.441),
-        new window.google.maps.LatLng(37.782, -122.439),
-        new window.google.maps.LatLng(37.782, -122.437),
-        new window.google.maps.LatLng(37.782, -122.435),
-        new window.google.maps.LatLng(37.785, -122.447),
-        new window.google.maps.LatLng(37.785, -122.445),
-        new window.google.maps.LatLng(37.785, -122.443),
-        new window.google.maps.LatLng(37.785, -122.441),
-        new window.google.maps.LatLng(37.785, -122.439),
-        new window.google.maps.LatLng(37.785, -122.437),
-        new window.google.maps.LatLng(37.785, -122.435)
-    ];
-
 
     return (
         <GoogleMap
@@ -57,7 +117,6 @@ export default function MapComp() {
             zoom={10}
             center={center}
         >
-            <Marker position={center} />
             <HeatmapLayer data={heatmapData} />
         </GoogleMap>
     );
