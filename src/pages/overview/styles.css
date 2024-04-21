@@ -1,0 +1,7 @@
+.card-shadow {
+    box-shadow: 0px 1px 50px 0px rgba(0, 0, 0, 0.08);
+}
+
+.prediction-cards .card-item{
+    width: calc(50% - 0.5rem);
+}

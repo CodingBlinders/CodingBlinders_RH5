@@ -1,0 +1,12 @@
+.button {
+  border-radius: 45px !important;
+  background-color: var(--theme);
+  text-transform: none !important;
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+
+.button.MuiButton-sizeLarge {
+  padding: 10px 40px;
+  max-height: 77px;
+}
